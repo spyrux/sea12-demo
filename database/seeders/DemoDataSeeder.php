@@ -17,16 +17,12 @@ class DemoDataSeeder extends Seeder
         $products = Product::all();
 
         Shipment::factory()
-            ->has(
-                ShipmentItem::factory()
-                    ->count(3)
-                    ->recycle($products),   
-                'items'
-            )
-            ->count(10)
-            ->create();
-        Transaction::factory()
-            ->count(12)
-            ->create();
+        ->has(
+            Transaction::factory()
+                ->count(3)
+                ->withLinesAndParties(3),
+            'transactions'
+        )
+        ->create();
     }
 }

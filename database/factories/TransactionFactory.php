@@ -26,26 +26,19 @@ class TransactionFactory extends Factory
     public function withLinesAndParties(int $lineCount = 2): static
     {
         return $this->afterCreating(function (Transaction $tx) use ($lineCount) {
-            $products = Product::inRandomOrder()->take(max($lineCount, 3))->get();
-            if ($products->isEmpty()) {
-                $products = Product::factory()->count(max($lineCount, 3))->create();
-            }
-
-            TransactionLine::factory()
+            \App\Models\TransactionLine::factory()
                 ->count($lineCount)
-                ->for($tx)                         // sets transaction_id
-                ->recycle($products)               // re-use existing product_ids
-                ->oneDollar()                      // unit_price = 1.00; computes line_value
+                ->for($tx) // sets transaction_id
+                ->oneDollar()
                 ->sequence(fn($s) => ['line_number' => $s->index + 1])
                 ->create();
-
-            // parties (buyer/seller)
-            $buyer  = Party::factory()->create();
-            $seller = Party::factory()->create();
+    
+            $buyer  = \App\Models\Party::factory()->create();
+            $seller = \App\Models\Party::factory()->create();
             $tx->parties()->attach($buyer->id,  ['role' => 'BUYER']);
             $tx->parties()->attach($seller->id, ['role' => 'SELLER']);
-
-            $tx->recalcTotal(); 
+    
+            $tx->recalcTotal(); // or $tx->forceFill(['total_value' => $tx->lines()->sum('line_value')])->save();
         });
     }
 }

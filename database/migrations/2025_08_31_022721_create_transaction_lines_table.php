@@ -15,10 +15,7 @@ return new class extends Migration
             $table->foreignUlid('transaction_id')
                   ->constrained('transactions')
                   ->cascadeOnDelete();
-
-            $table->foreignUlid('product_id')
-                  ->nullable()
-                  ->constrained('products');
+            $table->string('name');
 
             // (optional) stable ordering per transaction
             $table->unsignedInteger('line_number')->nullable();
@@ -30,9 +27,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            // indexes / constraints
-            $table->index(['transaction_id', 'product_id']);
-            $table->unique(['transaction_id', 'line_number']); // if you use line_number
+
         });
     }
 

@@ -16,7 +16,7 @@ class TransactionLine extends Model
 
     protected $fillable = [
         'transaction_id',
-        'product_id',
+        'name',
         'quantity',
         'unit_price',
         'line_value',
@@ -24,24 +24,17 @@ class TransactionLine extends Model
     ];
 
     protected $casts = [
+        'name'       => 'string',
         'quantity'   => 'decimal:2',
         'unit_price' => 'decimal:2',
         'line_value' => 'decimal:2',
     ];
 
-    /* ---------------- Relationships ---------------- */
 
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
     }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
-
-    /* ---------------- Helpers / Automations ---------------- */
 
     // Keep line_value in sync; auto-assign line_number if missing
     protected static function booted(): void
