@@ -20,7 +20,6 @@ return new class extends Migration
 
             $table->foreign('shipment_id')->references('id')->on('shipments');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->timestamps();
         });
     }
 
