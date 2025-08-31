@@ -19,5 +19,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        if (app()->environment('local')) { // avoid in prod
+            $this->call([
+              DemoDataSeeder::class,
+            ]);
+          }
     }
 }
