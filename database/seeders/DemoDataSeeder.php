@@ -6,12 +6,12 @@ use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\Shipment;
 use App\Models\ShipmentItem;
+use App\Models\Transaction;
 
 class DemoDataSeeder extends Seeder
 {
     public function run(): void
     {
-        // Seed reference products first
         $this->call(ProductSeeder::class);
 
         $products = Product::all();
@@ -20,10 +20,13 @@ class DemoDataSeeder extends Seeder
             ->has(
                 ShipmentItem::factory()
                     ->count(3)
-                    ->recycle($products),   // reuse seeded products for product_id
+                    ->recycle($products),   
                 'items'
             )
             ->count(10)
+            ->create();
+        Transaction::factory()
+            ->count(12)
             ->create();
     }
 }
