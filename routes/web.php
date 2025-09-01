@@ -53,6 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ->shallow();   
     Route::resource('contracts', ContractController::class);
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+    Route::get('/dashboard', [ShipmentController::class, 'index'])->name('dashboard');
 });
 
 require __DIR__.'/settings.php';
