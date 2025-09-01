@@ -19,9 +19,16 @@ class Contract extends Model
     ];
 
     // Relationships
-    public function transactions() {
-        return $this->hasMany(Transaction::class);
+    public function blob()
+    {
+        return $this->belongsTo(Blob::class);
     }
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class, 'transaction_id', 'id');
+    }
+
 
     public function shipment()
     {

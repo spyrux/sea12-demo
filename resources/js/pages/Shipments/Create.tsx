@@ -38,7 +38,7 @@ export default function Create({ statuses, vessels = [], locations = [] }: Props
         post('/shipments', {
             onSuccess: () => {
                 // Redirect to home page after successful creation
-                window.location.href = '/dashboard';
+                window.location.href = '/shipments';
             },
         });
     };
@@ -52,7 +52,7 @@ export default function Create({ statuses, vessels = [], locations = [] }: Props
                     {/* Header */}
                     <div className="mb-6 flex items-center space-x-4">
                         <Button variant="ghost" size="sm" asChild>
-                            <Link href="/dashboard">
+                            <Link href="/shipments">
                                 <ArrowLeft className="h-4 w-4" />
                             </Link>
                         </Button>

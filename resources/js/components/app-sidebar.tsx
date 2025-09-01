@@ -2,35 +2,41 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import analytics from '@/routes/analytics';
 import { index as contractsIndex } from '@/routes/contracts'; // Removed due to missing module
+import shipments from '@/routes/shipments';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { ChartArea, Folder, FolderGit2, LayoutGrid, User } from 'lucide-react';
+import { ChartArea, Folder, FolderGit2, Truck } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Contract Management',
+        title: 'Shipments',
+        href: shipments.index(),
+        icon: Truck,
+    },
+    {
+        title: 'Contracts',
         href: contractsIndex(),
         icon: Folder,
     },
     {
-        title: 'Analytics Dashboard',
-        href: dashboard(),
+        title: 'Analytics',
+        href: analytics.index(),
         icon: ChartArea,
     },
 
-    {
-        title: 'Tasking System',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Admin Portal',
-        href: dashboard(),
-        icon: User,
-    },
+    // {
+    //     title: 'Tasking System',
+    //     href: dashboard(),
+    //     icon: LayoutGrid,
+    // },
+    // {
+    //     title: 'Admin Portal',
+    //     href: dashboard(),
+    //     icon: User,
+    // },
 ];
 
 const footerNavItems: NavItem[] = [
@@ -48,7 +54,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={shipments.index()} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

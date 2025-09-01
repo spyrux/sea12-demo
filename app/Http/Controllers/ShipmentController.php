@@ -35,7 +35,7 @@ class ShipmentController extends Controller
                 ];
             });
 
-        return Inertia::render('Shipments/Index', [
+        return Inertia::render('dashboard', [
             'shipments' => $shipments,
         ]);
     }
@@ -62,7 +62,7 @@ class ShipmentController extends Controller
         );
 
         return redirect()
-            ->route('dashboard')
+            ->route('shipments.index')
             ->with('status', 'Shipment created successfully');
     }
 

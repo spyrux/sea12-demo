@@ -5,13 +5,14 @@ use Inertia\Inertia;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\TransactionController; // 👈 add
 use App\Http\Controllers\ContractController; 
+use App\Http\Controllers\AnalyticsController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
+    Route::get('shipments', function () {
         $shipments = \App\Models\Shipment::with(['latestVersion.vessel', 'latestVersion.origin', 'latestVersion.destination'])
             ->latest()
             ->get()
@@ -44,12 +45,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'per_page' => $shipments->count(),
             ],
         ]);
-    })->name('dashboard');
+    })->name('shipments');
     Route::resource('shipments', ShipmentController::class);
+    Route::get('contracts/{contract}/pdf', [ContractController::class, 'pdf'])->name('contracts.pdf');
     Route::resource('shipments.transactions', TransactionController::class)
     ->only(['store']) 
     ->shallow();   
     Route::resource('contracts', ContractController::class);
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
 });
 
 require __DIR__.'/settings.php';

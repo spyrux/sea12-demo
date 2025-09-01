@@ -31,6 +31,8 @@ class Transaction extends Model
     // Relationships
     public function shipment()     { return $this->belongsTo(Shipment::class); }
     public function lines()        { return $this->hasMany(TransactionLine::class); }
+    public function contracts() { return $this->hasMany(Contract::class, 'transaction_id', 'id');}
+
     public function parties()
     {
         return $this->belongsToMany(Party::class, 'transaction_parties')

@@ -13,10 +13,13 @@ return new class extends Migration
 
             $table->string('type');
             $table->date('tx_date');
-            $table->string('external_id')->nullable()->index();
-            $table->decimal('total_value', 18, 2)->default(0);
+            $table->string('external_id')->nullable()->index(); 
 
             $table->timestamps();
+
+            $table->ulid('shipment_id')->nullable();
+            $table->foreign('shipment_id')->references('id')->on('shipments')->onDelete('cascade');
+            $table->index('shipment_id');
 
             // handy composite index for common queries
             $table->index(['tx_date', 'type']);

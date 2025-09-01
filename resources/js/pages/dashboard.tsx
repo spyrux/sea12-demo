@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowRight, Calendar, Container, MapPin, Plus, Ship } from 'lucide-react';
+import { ArrowRight, Calendar, Container, MapPin, Plus, Truck } from 'lucide-react';
 import React from 'react';
 
 interface Shipment {
@@ -36,7 +36,7 @@ const statusColors = {
 
 const statusIcons = {
     PLANNED: Calendar,
-    IN_TRANSIT: Ship,
+    IN_TRANSIT: Truck,
     ARRIVED: MapPin,
     CLOSED: Container,
 };
@@ -49,8 +49,8 @@ export default function Dashboard({ shipments }: Props) {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-                        <p className="text-muted-foreground">Overview of your cargo shipments</p>
+                        <h1 className="text-3xl font-bold tracking-tight">Shipments</h1>
+                        <p className="text-muted-foreground">Management of your cargo shipments</p>
                     </div>
                     <Button asChild>
                         <Link href="/shipments/create">
@@ -83,7 +83,7 @@ export default function Dashboard({ shipments }: Props) {
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">In Transit</CardTitle>
-                            <Ship className="h-4 w-4 text-muted-foreground" />
+                            <Truck className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">{shipments.data.filter((s) => s.status === 'IN_TRANSIT').length}</div>
@@ -109,7 +109,7 @@ export default function Dashboard({ shipments }: Props) {
                     <CardContent>
                         {shipments.data.length === 0 ? (
                             <div className="py-12 text-center">
-                                <Ship className="mx-auto h-12 w-12 text-muted-foreground" />
+                                <Truck className="mx-auto h-12 w-12 text-muted-foreground" />
                                 <h3 className="mt-4 text-lg font-semibold">No shipments found</h3>
                                 <p className="mt-2 text-muted-foreground">Get started by creating your first shipment.</p>
                                 <Button asChild className="mt-4">

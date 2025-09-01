@@ -19,7 +19,6 @@ class TransactionFactory extends Factory
             'type'        => fake()->randomElement(['PURCHASE','SALE','FREIGHT','INSURANCE']),
             'tx_date'     => Carbon::now()->subDays(fake()->numberBetween(0, 30))->toDateString(),
             'external_id' => fake()->optional()->bothify('EXT-#####'),
-            'total_value' => 0,
         ];
     }
 
@@ -38,7 +37,6 @@ class TransactionFactory extends Factory
             $tx->parties()->attach($buyer->id,  ['role' => 'BUYER']);
             $tx->parties()->attach($seller->id, ['role' => 'SELLER']);
     
-            $tx->recalcTotal();
         });
     }
 }
