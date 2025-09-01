@@ -12,7 +12,7 @@ class ShipmentController extends Controller
     /** List shipments (use latestVersion for display) */
     public function index()
     {
-        $shipments = Shipment::with('latestVersion')
+        $shipments = Shipment::with(['latestVersion.vessel', 'latestVersion.origin', 'latestVersion.destination'])
             ->latest()
             ->paginate(10)
             ->through(function (Shipment $s) {
@@ -21,6 +21,17 @@ class ShipmentController extends Controller
                     'status' => $s->status, // accessor proxies to latestVersion
                     'cargo_sailing_date' => optional($s->cargo_sailing_date)?->toDateString(),
                     'eta'   => optional($s->eta)?->toDateString(),
+                    'latest' => [
+                        'vessel' => $s->latestVersion?->vessel ? [
+                            'name' => $s->latestVersion->vessel->name
+                        ] : null,
+                        'origin' => $s->latestVersion?->origin ? [
+                            'name' => $s->latestVersion->origin->name
+                        ] : null,
+                        'destination' => $s->latestVersion?->destination ? [
+                            'name' => $s->latestVersion->destination->name
+                        ] : null,
+                    ],
                 ];
             });
 
@@ -34,6 +45,8 @@ class ShipmentController extends Controller
     {
         return Inertia::render('Shipments/Create', [
             'statuses' => ['PLANNED','IN_TRANSIT','ARRIVED','CLOSED'],
+            'vessels' => \App\Models\Vessel::select('id', 'name')->get(),
+            'locations' => \App\Models\Location::select('id', 'name')->get(),
         ]);
     }
 
@@ -49,8 +62,8 @@ class ShipmentController extends Controller
         );
 
         return redirect()
-            ->route('shipments.show', $shipment)
-            ->with('status', 'Shipment created');
+            ->route('dashboard')
+            ->with('status', 'Shipment created successfully');
     }
 
     /** Show one (latest + history) */
@@ -68,9 +81,15 @@ class ShipmentController extends Controller
                     'status' => $shipment->status,
                     'cargo_sailing_date' => optional($shipment->cargo_sailing_date)?->toDateString(),
                     'eta' => optional($shipment->eta)?->toDateString(),
-                    'vessel_id' => $shipment->vessel_id,
-                    'origin_id' => $shipment->origin_id,
-                    'destination_id' => $shipment->destination_id,
+ 'vessel' => $shipment->latestVersion?->vessel ? [
+                            'name' => $shipment->latestVersion->vessel->name
+                        ] : null,
+                    'origin' => $shipment->latestVersion?->origin ? [
+                        'name' => $shipment->latestVersion->origin->name
+                    ] : null,
+                    'destination' => $shipment->latestVersion?->destination ? [
+                        'name' => $shipment->latestVersion->destination->name
+                    ] : null,
                 ],
                 'versions' => $shipment->versions->map(fn ($v) => [
                     'id' => $v->id,
@@ -79,7 +98,9 @@ class ShipmentController extends Controller
                     'cargo_sailing_date' => optional($v->cargo_sailing_date)?->toDateString(),
                     'eta' => optional($v->eta)?->toDateString(),
                     'created_at' => $v->created_at->toDateTimeString(),
-                    'actor_id' => $v->actor_id,
+                    'actor' => $v->latestVersion?->actor ? [
+                        'name' => $v->actor->name
+                    ] : null,
                     'reason' => $v->reason ?? null,
                 ]),
             ],
@@ -97,11 +118,19 @@ class ShipmentController extends Controller
                 'status' => $shipment->status,
                 'cargo_sailing_date' => optional($shipment->cargo_sailing_date)?->toDateString(),
                 'eta' => optional($shipment->eta)?->toDateString(),
-                'vessel_id' => $shipment->vessel_id,
-                'origin_id' => $shipment->origin_id,
-                'destination_id' => $shipment->destination_id,
+                'vessel' => $shipment->latestVersion?->vessel ? [
+                    'name' => $shipment->latestVersion->vessel->name
+                ] : null,
+                'origin' => $shipment->latestVersion?->origin ? [
+                    'name' => $shipment->latestVersion->origin->name
+                ] : null,
+                'destination' => $shipment->latestVersion?->destination ? [
+                    'name' => $shipment->latestVersion->destination->name
+                ] : null,
             ],
             'statuses' => ['PLANNED','IN_TRANSIT','ARRIVED','CLOSED'],
+            'vessels' => \App\Models\Vessel::select('id', 'name')->get(),
+            'locations' => \App\Models\Location::select('id', 'name')->get(),
         ]);
     }
 

@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('locations', function (Blueprint $table) {
-            $table->ulid('id')->primary();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('shipment_versions', function (Blueprint $table) {
+            //
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('locations');
+        Schema::table('shipment_versions', function (Blueprint $table) {
+            //
+        });
     }
 };
