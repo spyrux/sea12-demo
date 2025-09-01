@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Calendar, DollarSign, Edit, Package, Plus, Ship, User } from 'lucide-react';
+import { ArrowLeft, ArrowRightLeft, Calendar, Edit, Package, Plus, Ship, User } from 'lucide-react';
 interface PageProps {
     auth: {
         user: {
@@ -141,7 +141,7 @@ export default function Show({ shipment }: Props) {
                             <CardHeader>
                                 <div className="flex items-center justify-between">
                                     <CardTitle className="flex items-center space-x-2">
-                                        <DollarSign className="h-5 w-5" />
+                                        <ArrowRightLeft className="h-5 w-5" />
                                         <span>Transactions</span>
                                     </CardTitle>
                                     <Button size="sm" variant="outline" asChild>
@@ -222,7 +222,7 @@ export default function Show({ shipment }: Props) {
                                     </>
                                 ) : (
                                     <div className="py-8 text-center">
-                                        <DollarSign className="mx-auto h-12 w-12 text-muted-foreground" />
+                                        <ArrowRightLeft className="mx-auto h-12 w-12 text-muted-foreground" />
                                         <h3 className="mt-2 text-sm font-medium text-muted-foreground">No transactions</h3>
                                         <p className="mt-1 text-sm text-muted-foreground">
                                             Get started by adding financial transactions to this shipment.
