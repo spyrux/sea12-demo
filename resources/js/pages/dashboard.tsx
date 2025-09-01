@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowRight, Calendar, Container, MapPin, Plus, Truck } from 'lucide-react';
+import { ArrowRight, Calendar, CircleX, Container, MapPin, Plus, Truck } from 'lucide-react';
 import React from 'react';
 
 interface Shipment {
@@ -38,7 +38,7 @@ const statusIcons = {
     PLANNED: Calendar,
     IN_TRANSIT: Truck,
     ARRIVED: MapPin,
-    CLOSED: Container,
+    CLOSED: CircleX,
 };
 
 export default function Dashboard({ shipments }: Props) {
