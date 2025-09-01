@@ -35,21 +35,8 @@ Welcome to spyrux's laravel php demo project for sea12
 ## 📋 What You Need to Get Started
 
 Before we dive in, make sure you've got these bad boys installed:
-
-- **🐘 PHP 8.2+** with these extensions (don't skip any, they're all important):
-    - BCMath PHP Extension
-    - Ctype PHP Extension
-    - cURL PHP Extension
-    - DOM PHP Extension
-    - Fileinfo PHP Extension
-    - JSON PHP Extension
-    - Mbstring PHP Extension
-    - OpenSSL PHP Extension
-    - PCRE PHP Extension
-    - PDO PHP Extension
-    - Tokenizer PHP Extension
-    - XML PHP Extension
-
+install php 
+https://laravel.com/docs/12.x/installation
 - **🟢 Node.js 18+** and npm (the dynamic duo)
 - **🎼 Composer** (PHP package manager extraordinaire)
 - **📦 Git** (because version control is life)
