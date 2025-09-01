@@ -25,7 +25,7 @@ class TransactionLine extends Model
 
     protected $casts = [
         'name'       => 'string',
-        'quantity'   => 'decimal:2',
+        'quantity'   => 'integer',
         'unit_price' => 'decimal:2',
         'line_value' => 'decimal:2',
     ];
@@ -67,6 +67,7 @@ class TransactionLine extends Model
                     [
                         'name'     => $line->name,
                         'quantity' => $line->quantity,
+                        'unit_price' => $line->unit_price,
                     ]
                 );
             }
@@ -81,6 +82,7 @@ class TransactionLine extends Model
                 ])->update([
                     'name'     => $line->name,
                     'quantity' => $line->quantity,
+                    'unit_price' => $line->unit_price,
                 ]);
             }
         });

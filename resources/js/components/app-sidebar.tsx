@@ -3,6 +3,7 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as contractsIndex } from '@/routes/contracts'; // Removed due to missing module
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ChartArea, Folder, FolderGit2, LayoutGrid, User } from 'lucide-react';
@@ -10,13 +11,8 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Tasking System',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
         title: 'Contract Management',
-        href: dashboard(),
+        href: contractsIndex(),
         icon: Folder,
     },
     {
@@ -25,6 +21,11 @@ const mainNavItems: NavItem[] = [
         icon: ChartArea,
     },
 
+    {
+        title: 'Tasking System',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
     {
         title: 'Admin Portal',
         href: dashboard(),

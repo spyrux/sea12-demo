@@ -102,7 +102,46 @@ class ShipmentController extends Controller
                         'name' => $v->actor->name
                     ] : null,
                     'reason' => $v->reason ?? null,
-                ]),
+                ]), 
+                'items' => $shipment->items->map(function ($i) {
+                    $line = $i->transactionLine; // may be null if not mirrored
+                    $unitPrice = (float) ($line->unit_price ?? 0);
+                    $qty = (float) $i->quantity;
+                    return [
+                        'id'          => $i->id,
+                        'description' => $i->name,
+                        'quantity'    => $qty,
+                        'unit'        => 'units', // adjust if you store a unit
+                        'unit_price'  => $unitPrice,
+                        'total_price' => (float) ($line->line_value ?? ($qty * $unitPrice)),
+                        'created_at'  => $i->created_at->toDateTimeString(),
+                    ];
+                }),
+                'transactions' => $shipment->transactions->map(function ($t) {
+                    $total = (float) $t->lines->sum('line_value');
+                    return [
+                        'id'                => $t->id,
+                        'transaction_date'  => optional($t->transaction_date ?? null)?->toDateString(),
+                        'reference'         => $t->reference ?? ('TX-' . substr($t->id, -6)),
+                        'total_amount'      => $total,
+                        'transaction_type'  => $t->type ?? 'UNKNOWN',
+                        'created_at'        => $t->created_at->toDateTimeString(),
+                        'lines' => $t->lines->map(fn ($l) => [
+                            'id'             => $l->id,
+                            'description'    => $l->name,
+                            'quantity'       => (float) $l->quantity,
+                            'unit_price'     => (float) $l->unit_price,
+                            'total_amount'   => (float) $l->line_value,
+                            'transaction_type'=> $t->type ?? 'UNKNOWN',
+                            'created_at'     => $l->created_at->toDateTimeString(),
+                        ]),
+                        'parties' => $t->parties->map(fn ($p) => [
+                            'id'   => $p->id,
+                            'name' => $p->name,
+                            'type' => $p->pivot->role ?? null,
+                        ]),
+                    ];
+                }),
             ],
         ]);
     }

@@ -42,6 +42,11 @@ class Shipment extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function items()
+    {
+        return $this->hasMany(ShipmentItem::class);
+    }
+
     public function writeVersion(array $attrs, ?string $actorId = null, ?string $reason = null): void
     {
         DB::transaction(function () use ($attrs, $actorId, $reason) {

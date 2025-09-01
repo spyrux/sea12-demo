@@ -38,7 +38,7 @@ class TransactionFactory extends Factory
             $tx->parties()->attach($buyer->id,  ['role' => 'BUYER']);
             $tx->parties()->attach($seller->id, ['role' => 'SELLER']);
     
-            $tx->recalcTotal(); // or $tx->forceFill(['total_value' => $tx->lines()->sum('line_value')])->save();
+            $tx->recalcTotal();
         });
     }
 }

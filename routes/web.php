@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ShipmentController;
+use App\Http\Controllers\TransactionController; // 👈 add
+use App\Http\Controllers\ContractController; 
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -44,6 +46,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('dashboard');
     Route::resource('shipments', ShipmentController::class);
+    Route::resource('shipments.transactions', TransactionController::class)
+    ->only(['store']) 
+    ->shallow();   
+    Route::resource('contracts', ContractController::class);
 });
 
 require __DIR__.'/settings.php';

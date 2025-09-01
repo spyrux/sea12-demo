@@ -5,37 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
-// use App\Enums\TransactionType; // <- if you use a PHP enum
+use App\Enums\TransactionType; // ← ensure this exists
 
 class Transaction extends Model
 {
     use HasFactory, HasUlids;
 
-    public $incrementing = false;   // ULID PK
+    public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'type',        // e.g. PURCHASE, SALE, FREIGHT...
-        'tx_date',     // YYYY-MM-DD
-        'external_id', // optional client/system ref
-        'total_value', // sum of lines
+        'shipment_id',   // FK to shipments
+        'type',          // PURCHASE, SALE, FREIGHT...
+        'tx_date',       // YYYY-MM-DD
+        'external_id',   // optional
+        'total_value',   // sum of lines
     ];
 
     protected $casts = [
         'tx_date'     => 'date',
         'total_value' => 'decimal:2',
-        // 'type'      => TransactionType::class, // uncomment if using enum
+        'type'        => TransactionType::class,
     ];
 
-    /* ---------------- Relationships ---------------- */
-
-    // Transaction has many lines (product, qty, unit_price, line_value)
-    public function lines()
-    {
-        return $this->hasMany(TransactionLine::class);
-    }
-
-    // Transaction ↔ Parties with a role on the pivot (BUYER/SELLER/CARRIER/...)
+    // Relationships
+    public function shipment()     { return $this->belongsTo(Shipment::class); }
+    public function lines()        { return $this->hasMany(TransactionLine::class); }
     public function parties()
     {
         return $this->belongsToMany(Party::class, 'transaction_parties')
@@ -43,12 +38,9 @@ class Transaction extends Model
                     ->withTimestamps();
     }
 
-    /* ---------------- Helpers (optional) ---------------- */
-
-    // Recalculate total_value from lines (call after modifying lines)
+    // Helpers
     public function recalcTotal(): void
     {
-        $sum = $this->lines()->sum('line_value');
-        $this->forceFill(['total_value' => $sum])->save();
+        $this->forceFill(['total_value' => $this->lines()->sum('line_value')])->save();
     }
 }

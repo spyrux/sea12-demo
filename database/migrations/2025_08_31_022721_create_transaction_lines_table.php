@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedInteger('line_number')->nullable();
 
             // amounts (USD implied)
-            $table->decimal('quantity', 18, 2);
+            $table->integer('quantity');
             $table->decimal('unit_price', 18, 2);
             $table->decimal('line_value', 18, 2);
 

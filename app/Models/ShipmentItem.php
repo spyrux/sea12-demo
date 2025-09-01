@@ -19,13 +19,15 @@ class ShipmentItem extends Model
         'transaction_line_id',
         'name',
         'quantity',
+        'unit_price',
     ];
 
     protected $casts = [
         'shipment_id'         => 'string',
         'transaction_line_id' => 'string',
         'name'                => 'string',
-        'quantity'            => 'decimal:2',
+        'quantity'            => 'integer',
+        'unit_price'          => 'decimal:2',
     ];
 
     // Relationships

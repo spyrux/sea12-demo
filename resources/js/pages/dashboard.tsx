@@ -1,19 +1,9 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
-import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { ArrowRight, Calendar, Container, MapPin, Plus, Ship } from 'lucide-react';
 import React from 'react';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Home',
-        href: dashboard().url,
-    },
-];
 
 interface Shipment {
     id: string;
@@ -53,7 +43,7 @@ const statusIcons = {
 
 export default function Dashboard({ shipments }: Props) {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title="Dashboard" />
             <div className="space-y-6 p-6">
                 {/* Header */}
@@ -185,6 +175,6 @@ export default function Dashboard({ shipments }: Props) {
                     </CardContent>
                 </Card>
             </div>
-        </AppLayout>
+        </>
     );
 }
