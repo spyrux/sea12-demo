@@ -1,4 +1,4 @@
-Welcome to spyrux's laravel php demo project for sea12
+Welcome to spyrux's laravel php demo project for sea12 that i built over the weekend with cursor to showcase my skillz with 0->1ing 
 
 # Sea12 - Shipment Management System
 
